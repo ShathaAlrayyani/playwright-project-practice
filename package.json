@@ -1,0 +1,13 @@
+{
+  "name": "playwright-project-practice",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/ShathaAlrayyani/playwright-project-practice.git",
+  "author": "ShathaAlrayyani <shatha.alrayyani223@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "@types/node": "^26.6.5"
+  },
+  "scripts": {}
+}

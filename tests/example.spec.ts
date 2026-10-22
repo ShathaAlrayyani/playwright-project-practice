@@ -25,7 +25,7 @@ test.describe("Testing Playwright Docs Page", () => {
   test("check Java page", async ({ page }) => {
     await homePage.clickGetStarted();
     await page.getByRole("button", { name: "Node.js", exact: true }).hover();
-    await page.getByText("Java", { exact: true }).click({delay:2000});
+    await page.getByText("Java", { exact: true }).click();
     await expect(page).toHaveURL("https://playwright.dev/java/docs/intro");
     await expect(
       page.getByText("Installing Playwright", { exact: true }),

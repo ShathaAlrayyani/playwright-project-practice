@@ -1,32 +1,35 @@
 import { test, expect } from "@playwright/test";
+import HomePage from "../pages/homePage";
+const URL = "https://playwright.dev/";
+const javaDec = `Playwright is distributed as a set of Maven modules. The easiest way to use it is to add one dependency to your project's pom.xml as described below. `;
+let homePage: HomePage;
 
-test("has title", async ({ page }) => {
-  await page.goto("https://playwright.dev/");
-
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Playwright/);
+test.beforeEach(async ({ page }) => {
+  await page.goto(URL);
+  homePage = new HomePage(page);
 });
 
-test("get started link", async ({ page }) => {
-  await page.goto("https://playwright.dev/");
+test.describe("Testing Playwright Docs Page", () => {
+  test("has title", async () => {
+    // Expect a title "to contain" a substring.
+    await homePage.assertPageTitle();
+  });
 
-  // Click the get started link.
-  await page.getByRole("link", { name: "Get started" }).click();
+  test("get started link", async ({ page }) => {
+    await homePage.clickGetStarted();
+    await expect(
+      page.getByRole("heading", { name: "Installation" }),
+    ).toBeVisible();
+  });
 
-  // Expects page to have a heading with the name of Installation.
-  await expect(
-    page.getByRole("heading", { name: "Installation" }),
-  ).toBeVisible();
-});
-
-
-test("check Java page", async ({ page }) => {
-  const javaDec = `Playwright is distributed as a set of Maven modules. The easiest way to use it is to add one dependency to your project's pom.xml as described below. `
-  await page.goto("https://playwright.dev/");
-  await page.getByRole("link", { name: "Get started" }).click();
-  await page.getByRole("button", { name: "Node.js",  exact: true}).hover();
-  await page.getByText("Java", { exact: true }).click();
-  await expect(page).toHaveURL("https://playwright.dev/java/docs/intro");
-  await expect(page.getByText("Installing Playwright",{exact:true})).not.toBeVisible()
-  await expect(page.getByText(javaDec)).toBeVisible()
+  test("check Java page", async ({ page }) => {
+    await homePage.clickGetStarted();
+    await page.getByRole("button", { name: "Node.js", exact: true }).hover();
+    await page.getByText("Java", { exact: true }).click();
+    await expect(page).toHaveURL("https://playwright.dev/java/docs/intro");
+    await expect(
+      page.getByText("Installing Playwright", { exact: true }),
+    ).not.toBeVisible();
+    await expect(page.getByText(javaDec)).toBeVisible();
+  });
 });
